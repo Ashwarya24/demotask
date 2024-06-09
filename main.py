@@ -32,6 +32,12 @@ class TaskManager:
         This method writes the list of tasks to a file
         """
         pass
+    def dump_tasks_to_file(self, filename="tasks_dump.txt"):
+        with open(filename, 'w') as file:
+            for task in self.tasks:
+                status = "Completed" if task.completed else "Pending"
+                file.write(f"{task.description} - {status}\n")
+        print(f"Tasks have been dumped to {filename}")
 
 def main():
     task_manager = TaskManager()
@@ -45,6 +51,7 @@ def main():
 
         choice = input("Enter your choice: ")
 
+        
         if choice == "1":
             description = input("Enter task description: ")
             task_manager.add_task(description)
@@ -55,6 +62,11 @@ def main():
             task_index = int(input("Enter task index to mark as completed: "))
             task_manager.mark_task_completed(task_index)
         elif choice == "4":
+            filename = input("Enter the filename to dump tasks to (default is tasks_dump.txt): ")
+            if not filename:
+                filename = "tasks_dump.txt"
+            task_manager.dump_tasks_to_file(filename)
+        elif choice == "5":
             print("Exiting program.")
             break
         else:
